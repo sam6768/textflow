@@ -701,13 +701,6 @@ document.getElementById('themeToggle').addEventListener('click', function() {
   chevron.classList.toggle('open', !collapsed);
 });
 
-document.getElementById('fontToggle').addEventListener('click', function() {
-  const chevron = this.querySelector('.chevron');
-  const section = document.getElementById('fontSection');
-  section.classList.toggle('collapsed');
-  chevron.classList.toggle('open', !section.classList.contains('collapsed'));
-});
-
 // 字号 / 行距
 fontSizeSlider.addEventListener('input', e => {
   const v = e.target.value;
