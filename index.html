@@ -49,7 +49,7 @@
 <!-- 主体 -->
 <main class="main-layout">
 
-  <!-- 左侧边栏：主题 + AI -->
+  <!-- 左侧边栏：主题 -->
   <aside class="sidebar" id="sidebar">
     <!-- 主题板块 -->
     <div class="sidebar-section">
@@ -64,10 +64,42 @@
       </div>
       <div class="theme-grid" id="themeGrid"></div>
     </div>
+  </aside>
 
+  <!-- 编辑区 -->
+  <section class="editor-pane" id="editorPane">
+    <div class="editor-toolbar">
+      <button class="fmt-btn" data-cmd="bold" title="加粗">B</button>
+      <button class="fmt-btn italic" data-cmd="italic" title="斜体">I</button>
+      <button class="fmt-btn" data-cmd="h1" title="大标题">H1</button>
+      <button class="fmt-btn" data-cmd="h2" title="小标题">H2</button>
+      <button class="fmt-btn" data-cmd="ul" title="无序列表">≡</button>
+      <button class="fmt-btn" data-cmd="quote" title="引用">"</button>
+      <div class="toolbar-sep"></div>
+      <button class="fmt-btn" data-cmd="undo" title="撤销">↩</button>
+      <button class="fmt-btn" data-cmd="redo" title="重做">↪</button>
+    </div>
+    <textarea
+      id="editor"
+      class="editor"
+      placeholder="在这里粘贴或输入你的内容，AI 会帮你排版得漂漂亮亮…
+
+支持 Markdown 语法：
+# 一级标题
+## 二级标题
+**加粗** / *斜体*
+- 列表项
+> 引用文字
+"
+      spellcheck="false"
+    ></textarea>
+  </section>
+
+  <!-- 右侧功能区：AI + 字体 + 预览 -->
+  <section class="right-pane" id="rightPane">
     <!-- AI功能板块 -->
-    <div class="sidebar-section ai-section">
-      <div class="section-header">
+    <section class="top-section ai-section-inline">
+      <div class="section-header-inline">
         <span class="section-icon">✨</span>
         <span>AI 一键排版</span>
         <span class="badge-new">NEW</span>
@@ -113,16 +145,15 @@
         <div class="loading-dots"><span></span><span></span><span></span></div>
         <span>AI 正在排版中…</span>
       </div>
-    </div>
+    </section>
 
     <!-- 字体板块 -->
-    <div class="sidebar-section">
-      <div class="section-header" id="fontToggle">
+    <section class="top-section font-section-inline">
+      <div class="section-header-inline">
         <span class="section-icon">Aa</span>
         <span>字体设置</span>
-        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
       </div>
-      <div class="font-section collapsed" id="fontSection">
+      <div class="font-content">
         <div class="font-options" id="fontOptions"></div>
         <div class="size-control">
           <span>字号</span>
@@ -135,55 +166,26 @@
           <span id="lineHeightVal">1.8</span>
         </div>
       </div>
-    </div>
-  </aside>
+    </section>
 
-  <!-- 中间编辑区 -->
-  <section class="editor-pane" id="editorPane">
-    <div class="editor-toolbar">
-      <button class="fmt-btn" data-cmd="bold" title="加粗">B</button>
-      <button class="fmt-btn italic" data-cmd="italic" title="斜体">I</button>
-      <button class="fmt-btn" data-cmd="h1" title="大标题">H1</button>
-      <button class="fmt-btn" data-cmd="h2" title="小标题">H2</button>
-      <button class="fmt-btn" data-cmd="ul" title="无序列表">≡</button>
-      <button class="fmt-btn" data-cmd="quote" title="引用">"</button>
-      <div class="toolbar-sep"></div>
-      <button class="fmt-btn" data-cmd="undo" title="撤销">↩</button>
-      <button class="fmt-btn" data-cmd="redo" title="重做">↪</button>
-    </div>
-    <textarea
-      id="editor"
-      class="editor"
-      placeholder="在这里粘贴或输入你的内容，AI 会帮你排版得漂漂亮亮…
-
-支持 Markdown 语法：
-# 一级标题
-## 二级标题
-**加粗** / *斜体*
-- 列表项
-> 引用文字
-"
-      spellcheck="false"
-    ></textarea>
-  </section>
-
-  <!-- 右侧预览区 -->
-  <section class="preview-pane" id="previewPane">
-    <div class="preview-topbar">
-      <span class="preview-label">预览效果</span>
-      <div class="preview-actions">
-        <button class="icon-btn-sm" id="exportHtmlBtn" title="导出 HTML">HTML</button>
-        <button class="icon-btn-sm" id="copyPreviewBtn" title="复制预览文本">复制</button>
-      </div>
-    </div>
-    <div class="preview-scroll">
-      <article class="preview-content theme-content" id="previewContent">
-        <div class="preview-empty">
-          <div class="empty-icon">✦</div>
-          <p>在左侧输入内容，预览效果将实时显示在这里</p>
+    <!-- 预览区 -->
+    <section class="preview-pane" id="previewPane">
+      <div class="preview-topbar">
+        <span class="preview-label">预览效果</span>
+        <div class="preview-actions">
+          <button class="icon-btn-sm" id="exportHtmlBtn" title="导出 HTML">HTML</button>
+          <button class="icon-btn-sm" id="copyPreviewBtn" title="复制预览文本">复制</button>
         </div>
-      </article>
-    </div>
+      </div>
+      <div class="preview-scroll">
+        <article class="preview-content theme-content" id="previewContent">
+          <div class="preview-empty">
+            <div class="empty-icon">✦</div>
+            <p>在左侧输入内容，预览效果将实时显示在这里</p>
+          </div>
+        </article>
+      </div>
+    </section>
   </section>
 </main>
 
