@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TextFlow · 智能排版工具</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=ZCOOL+XiaoWei&family=Ma+Shan+Zheng&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- 顶部导航 -->
+<header class="topbar">
+  <div class="topbar-left">
+    <div class="logo">
+      <span class="logo-icon">✦</span>
+      <span class="logo-text">TextFlow</span>
+    </div>
+    <div class="status-pill">
+      <span class="status-dot"></span>
+      <span id="statusText">就绪</span>
+    </div>
+  </div>
+  <div class="topbar-center">
+    <span class="stat-item"><span id="charCount">0</span> 字符</span>
+    <span class="stat-divider">·</span>
+    <span class="stat-item"><span id="wordCount">0</span> 词</span>
+    <span class="stat-divider">·</span>
+    <span class="stat-item"><span id="lineCount">0</span> 行</span>
+  </div>
+  <div class="topbar-right">
+    <button class="icon-btn" id="saveBtn" title="保存到本地">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/><polyline points="7,3 7,8 15,8"/></svg>
+    </button>
+    <button class="icon-btn" id="copyBtn" title="复制内容">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+    </button>
+    <button class="icon-btn" id="clearBtn" title="清空内容">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3,6 5,6 21,6"/><path d="M19,6l-1,14a2,2,0,0,1-2,2H8a2,2,0,0,1-2-2L5,6"/><path d="M10,11v6M14,11v6"/><path d="M9,6V4a1,1,0,0,1,1-1h4a1,1,0,0,1,1,1v2"/></svg>
+    </button>
+    <button class="btn-primary" id="togglePreview">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;margin-right:5px"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      预览
+    </button>
+  </div>
+</header>
+
+<!-- 主体 -->
+<main class="main-layout">
+
+  <!-- 左侧边栏：主题 + AI -->
+  <aside class="sidebar" id="sidebar">
+    <!-- 主题板块 -->
+    <div class="sidebar-section">
+      <div class="section-header" id="themeToggle">
+        <span class="section-icon">🎨</span>
+        <span>主题样式</span>
+        <span class="section-count" id="themeCount">32</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
+      </div>
+      <div class="theme-search-wrap">
+        <input type="text" id="themeSearch" class="theme-search" placeholder="搜索主题…" />
+      </div>
+      <div class="theme-grid" id="themeGrid"></div>
+    </div>
+
+    <!-- AI功能板块 -->
+    <div class="sidebar-section ai-section">
+      <div class="section-header">
+        <span class="section-icon">✨</span>
+        <span>AI 一键排版</span>
+        <span class="badge-new">NEW</span>
+      </div>
+      <p class="ai-desc">智能识别文本结构，自动优化段落、标点与排版，让内容焕然一新。</p>
+      <div class="ai-options">
+        <label class="ai-option">
+          <input type="radio" name="aiMode" value="light" checked />
+          <span class="radio-label">
+            <span class="radio-dot"></span>
+            <span>
+              <b>轻量微调</b>
+              <em>保留原文，优化标点与段落</em>
+            </span>
+          </span>
+        </label>
+        <label class="ai-option">
+          <input type="radio" name="aiMode" value="full" />
+          <span class="radio-label">
+            <span class="radio-dot"></span>
+            <span>
+              <b>深度美化</b>
+              <em>重组结构，添加层次与节奏</em>
+            </span>
+          </span>
+        </label>
+        <label class="ai-option">
+          <input type="radio" name="aiMode" value="xhs" />
+          <span class="radio-label">
+            <span class="radio-dot"></span>
+            <span>
+              <b>小红书风格</b>
+              <em>加表情、分点、爆款句式</em>
+            </span>
+          </span>
+        </label>
+      </div>
+      <button class="ai-btn" id="aiBtn">
+        <span class="ai-btn-icon">✦</span>
+        一键 AI 排版
+      </button>
+      <div class="ai-loading" id="aiLoading">
+        <div class="loading-dots"><span></span><span></span><span></span></div>
+        <span>AI 正在排版中…</span>
+      </div>
+    </div>
+
+    <!-- 字体板块 -->
+    <div class="sidebar-section">
+      <div class="section-header" id="fontToggle">
+        <span class="section-icon">Aa</span>
+        <span>字体设置</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
+      </div>
+      <div class="font-section collapsed" id="fontSection">
+        <div class="font-options" id="fontOptions"></div>
+        <div class="size-control">
+          <span>字号</span>
+          <input type="range" id="fontSizeSlider" min="12" max="24" value="16" />
+          <span id="fontSizeVal">16px</span>
+        </div>
+        <div class="size-control">
+          <span>行距</span>
+          <input type="range" id="lineHeightSlider" min="140" max="220" value="180" />
+          <span id="lineHeightVal">1.8</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 中间编辑区 -->
+  <section class="editor-pane" id="editorPane">
+    <div class="editor-toolbar">
+      <button class="fmt-btn" data-cmd="bold" title="加粗">B</button>
+      <button class="fmt-btn italic" data-cmd="italic" title="斜体">I</button>
+      <button class="fmt-btn" data-cmd="h1" title="大标题">H1</button>
+      <button class="fmt-btn" data-cmd="h2" title="小标题">H2</button>
+      <button class="fmt-btn" data-cmd="ul" title="无序列表">≡</button>
+      <button class="fmt-btn" data-cmd="quote" title="引用">"</button>
+      <div class="toolbar-sep"></div>
+      <button class="fmt-btn" data-cmd="undo" title="撤销">↩</button>
+      <button class="fmt-btn" data-cmd="redo" title="重做">↪</button>
+    </div>
+    <textarea
+      id="editor"
+      class="editor"
+      placeholder="在这里粘贴或输入你的内容，AI 会帮你排版得漂漂亮亮…
+
+支持 Markdown 语法：
+# 一级标题
+## 二级标题
+**加粗** / *斜体*
+- 列表项
+> 引用文字
+"
+      spellcheck="false"
+    ></textarea>
+  </section>
+
+  <!-- 右侧预览区 -->
+  <section class="preview-pane" id="previewPane">
+    <div class="preview-topbar">
+      <span class="preview-label">预览效果</span>
+      <div class="preview-actions">
+        <button class="icon-btn-sm" id="exportHtmlBtn" title="导出 HTML">HTML</button>
+        <button class="icon-btn-sm" id="copyPreviewBtn" title="复制预览文本">复制</button>
+      </div>
+    </div>
+    <div class="preview-scroll">
+      <article class="preview-content theme-content" id="previewContent">
+        <div class="preview-empty">
+          <div class="empty-icon">✦</div>
+          <p>在左侧输入内容，预览效果将实时显示在这里</p>
+        </div>
+      </article>
+    </div>
+  </section>
+</main>
+
+<!-- Toast 提示 -->
+<div class="toast" id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
